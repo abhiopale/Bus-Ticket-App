@@ -90,14 +90,14 @@ router.post('/user/signup', jsonParser, async ( req, res)=>{
             res.status(500).json({
                 status : "Error",
                 result : "Email already exists"
-                })}
+            })}
         
         const existingNumber = await User.findOne({number});
         if (existingNumber){
             res.status(500).json({
                 status : "Error",
                 result : "Number already exists"
-                })
+            })
         }
        
         // this will be implemented if the email in not register with the data base
