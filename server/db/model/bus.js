@@ -11,7 +11,7 @@ const busSchema = new mongoose.Schema({
     trim: true,
     required: true,
   },
-  number: {
+  busNumber: {
     type: String,
     required: true,
     minlength: 3,
@@ -34,7 +34,7 @@ const busSchema = new mongoose.Schema({
   arrival: {
     type: String,
   },
-  destiny: {
+  destination: {
     type: String,
   },
 });

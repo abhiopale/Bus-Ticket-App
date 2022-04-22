@@ -93,7 +93,7 @@ router.post("/user/login", jsonParser, async (req, res) => {
 });
 
 router.post("/user/signup", jsonParser, async (req, res) => {
-  let { firstName, lastName, number, email, password } = req.body;
+  let { firstName, lastName, phoneNumber, email, password } = req.body;
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -103,7 +103,7 @@ router.post("/user/signup", jsonParser, async (req, res) => {
       });
     }
 
-    const existingNumber = await User.findOne({ number });
+    const existingNumber = await User.findOne({ phoneNumber });
     if (existingNumber) {
       res.status(500).json({
         status: "Error",
@@ -117,7 +117,7 @@ router.post("/user/signup", jsonParser, async (req, res) => {
       let user = new User({
         firstName,
         lastName,
-        number,
+        phoneNumber,
         email,
         isAdmin: false,
         password,
@@ -163,23 +163,10 @@ router.post("/user/bus/search", userAuth, jsonParser, async (req, res) => {
 
 router.post("/user/bus/booktickets", userAuth, jsonParser, async (req, res) => {
   let email = req.email;
-  const {
-    number,
-    from,
-    to,
-    date,
-    seatNo,
-    modeOfPayment,
-    passengerName,
-  } = req.body;
+  const { id, seatNo, modeOfPayment, passengerName } = req.body;
   try {
     let ticketList = [];
-    let busExist = await Bus.findOne({
-      arrival: from,
-      destiny: to,
-      date,
-      number,
-    });
+    let busExist = await Bus.findOne({ _id: id });
     if (!busExist) {
       res.status(500).json({
         status: "Error",
@@ -211,12 +198,12 @@ router.post("/user/bus/booktickets", userAuth, jsonParser, async (req, res) => {
             customerName: passengerName[i],
             customerEmail: email,
             isBooked: true,
-            busNumber: number,
+            busNumber: busExist.busNumber,
             rate: busExist.rate,
-            date,
+            date: busExist.date,
             time: busExist.time,
-            arrival: from,
-            destiny: to,
+            arrival: busExist.arrival,
+            destiny: busExist.destination,
             modeOfPayment,
           });
           newSeatCollection[seatNo[i]] = {
@@ -231,10 +218,7 @@ router.post("/user/bus/booktickets", userAuth, jsonParser, async (req, res) => {
           busExist.seats[x] = newSeatCollection[x];
         });
         let newSeats = busExist.seats;
-        await Bus.findOneAndUpdate(
-          { number, date },
-          { $set: { seats: newSeats } }
-        );
+        await Bus.findOneAndUpdate({ _id: id }, { $set: { seats: newSeats } });
         res.json({
           status: "Success",
           result: "Tickets are booked",
@@ -259,9 +243,9 @@ router.post("/user/bus/booktickets", userAuth, jsonParser, async (req, res) => {
 });
 
 router.post("/user/bus/ticket", userAuth, jsonParser, async (req, res) => {
-  let { number, date } = req.body;
+  let { busNumber, date } = req.body;
   try {
-    let busExist = await Bus.findOne({ number, date });
+    let busExist = await Bus.findOne({ busNumber, date });
     if (!busExist) {
       res.status(500).json({
         status: "Error",

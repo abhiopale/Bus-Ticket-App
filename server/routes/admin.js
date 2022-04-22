@@ -89,7 +89,7 @@ router.post("/admin/login", jsonParser, async (req, res) => {
 });
 
 router.post("/admin/signup", jsonParser, async (req, res) => {
-  let { name, companyName, number, email, password } = req.body;
+  let { name, companyName, phoneNumber, email, password } = req.body;
   try {
     const existingUser = await Admin.findOne({ email });
     if (existingUser) {
@@ -98,9 +98,7 @@ router.post("/admin/signup", jsonParser, async (req, res) => {
         result: "Email already exists",
       });
     }
-    const Number = req.body.number;
-    const existingNumber = await Admin.findOne({ number });
-
+    const existingNumber = await Admin.findOne({ phoneNumber });
     if (existingNumber) {
       res.status(500).json({
         status: "Error",
@@ -114,7 +112,7 @@ router.post("/admin/signup", jsonParser, async (req, res) => {
       let admin = new Admin({
         name,
         companyName,
-        number,
+        phoneNumber,
         email,
         isAdmin: true,
         password,
@@ -146,9 +144,17 @@ router.post(
         result: "email doesn't exist",
       });
     } else {
-      let { number, rate, date, time, seatCount, arrival, destiny } = req.body;
+      let {
+        busNumber,
+        rate,
+        date,
+        time,
+        seatCount,
+        arrival,
+        destination,
+      } = req.body;
       try {
-        const existingBus = await Bus.findOne({ number, date });
+        const existingBus = await Bus.findOne({ busNumber, date });
         if (existingBus) {
           res.status(500).json({
             status: "error",
@@ -164,13 +170,13 @@ router.post(
           }
           const bus = new Bus({
             name: clientDetails.companyName,
-            number,
+            busNumber,
             rate,
             date,
             time,
             seats,
             arrival,
-            destiny,
+            destination,
           });
 
           let busOwner = await Admin.findOneAndUpdate(
@@ -195,23 +201,23 @@ router.post(
 
 router.post("/admin/bus/sales", adminAuth, jsonParser, async (req, res) => {
   let email = req.email;
-  let number = req.body.number;
-  console.log("is");
+  let _id = req.body._id;
   try {
-    let adminInfo = await Admin.find({ email });
-    let busInfo = await Bus.find({ number });
+    let adminInfo = await Admin.findOne({ email });
+    let busInfo = await Bus.findOne({ _id });
     if (adminInfo.companyName === busInfo.name) {
-      const soldTickets = await Ticket.find({
+      let soldTickets = await Ticket.find({
         isBooked: true,
-        busNumber: number,
+        busNumber: busInfo.busNumber,
       });
+      console.log(soldTickets);
       let sales = 0;
       for (i = 0; i < soldTickets.length; i++) {
         sales += soldTickets[i].rate;
       }
       res.json({
         status: "Success",
-        result: "Sales of bus Number " + number + " is " + sales,
+        result: "Sales of bus Number " + busInfo.busNumber + " is " + sales,
       });
     }
   } catch (error) {
