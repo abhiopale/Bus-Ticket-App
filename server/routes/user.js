@@ -251,6 +251,11 @@ router.post("/user/bus/details", userAuth, jsonParser, async (req, res) => {
         status: "Success",
         result: busDetails,
       });
+    } else {
+      res.status(500).json({
+        status: "Error",
+        result: "Please fill in the appropriate details.",
+      });
     }
   } catch (error) {
     {
