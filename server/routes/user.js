@@ -242,35 +242,15 @@ router.post("/user/bus/booktickets", userAuth, jsonParser, async (req, res) => {
   }
 });
 
-router.post("/user/bus/ticket", userAuth, jsonParser, async (req, res) => {
-  let { busNumber, date } = req.body;
+router.post("/user/bus/details", userAuth, jsonParser, async (req, res) => {
+  let { _id } = req.body;
   try {
-    let busExist = await Bus.findOne({ busNumber, date });
-    if (!busExist) {
-      res.status(500).json({
-        status: "Error",
-        result: "Please fill in the appropriate details.",
+    let busDetails = await Bus.findOne({ _id });
+    if (busDetails) {
+      res.json({
+        status: "Success",
+        result: busDetails,
       });
-    } else {
-      availableTicketList = [];
-      count = 0;
-      Object.values(busExist.seats).forEach((seat) => {
-        count += 1;
-        if (seat.isBooked == false) {
-          availableTicketList.push(count);
-        }
-      });
-      if (availableTicketList.length == 0) {
-        res.status(500).json({
-          status: "Error",
-          result: "No tickets Available",
-        });
-      } else {
-        res.status(500).json({
-          status: "Success",
-          result: availableTicketList,
-        });
-      }
     }
   } catch (error) {
     {
