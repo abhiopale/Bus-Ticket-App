@@ -146,7 +146,7 @@ router.post("/user/bus/search", userAuth, jsonParser, async (req, res) => {
         result: "Sorry no Buses available",
       });
     } else {
-      res.status(500).json({
+      res.json({
         status: "Success",
         result: busList,
       });

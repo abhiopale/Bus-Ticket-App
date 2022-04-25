@@ -4,7 +4,7 @@ const app = express();
 
 const dotenv = require("dotenv");
 
-dotenv.config({ path: "./config.env" });
+dotenv.config({ path: "./.env" });
 
 const mongoose = require("mongoose");
 
@@ -23,6 +23,15 @@ const userController = require("../server/routes/user");
 const adminController = require("../server/routes/admin");
 
 const path = require("path");
+
+const cors = require("cors");
+
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true, //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 
 // Middleware
 

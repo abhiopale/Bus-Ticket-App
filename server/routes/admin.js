@@ -8,11 +8,7 @@ app.use(express.json());
 
 const validate = require("validator");
 
-const mongoose = require("mongoose");
-
 const router = new express.Router();
-
-const Joi = require("@hapi/joi");
 
 const bcrypt = require("bcrypt");
 
@@ -25,6 +21,8 @@ const Ticket = require("../db/model/ticket");
 const bodyParser = require("body-parser");
 
 const jsonParser = bodyParser.json();
+
+var cookie = require("cookie");
 
 require("dotenv").config();
 
@@ -59,7 +57,9 @@ router.post("/admin/login", jsonParser, async (req, res) => {
       );
 
       if (passCheck == true) {
-        const token = jwt.sign(Email, process.env.ADMIN_KEY);
+        let token = jwt.sign(Email, process.env.ADMIN_KEY);
+        // res.cookie("token", token);
+        // window.localStorage.setItem("token", token);
         res.json({
           status: "Success",
           result: {
@@ -116,6 +116,7 @@ router.post("/admin/signup", jsonParser, async (req, res) => {
         email,
         isAdmin: true,
         password,
+        yourBus: [],
       });
       admin.save();
       res.status(200).json({
