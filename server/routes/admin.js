@@ -6,8 +6,6 @@ const jwt = require("jsonwebtoken");
 
 app.use(express.json());
 
-const validate = require("validator");
-
 const router = new express.Router();
 
 const bcrypt = require("bcrypt");
@@ -24,7 +22,9 @@ const jsonParser = bodyParser.json();
 
 var cookie = require("cookie");
 
-require("dotenv").config();
+const dotenv = require("dotenv");
+
+dotenv.config({ path: "../.env" });
 
 function adminAuth(req, res, next) {
   const authHeader = req.headers["authorization"];

@@ -6,16 +6,11 @@ export const adminSignUpSlice = createSlice({
   name: "admin",
   initialState: {
     admin: {
-      name: "",
-      companyName: "",
-      phoneNumber: "",
-      email: "",
-      password: "",
+      signedUp: false,
     },
   },
   reducers: {
     adminSignUp: (state, action) => {
-      state.admin = action.payload;
       axios
         .post("http://localhost:5000/admin/signup", {
           name: state.admin.name,
@@ -24,7 +19,9 @@ export const adminSignUpSlice = createSlice({
           email: state.admin.email,
           password: state.admin.password,
         })
-        .then((res) => console.log("Posting Data", res))
+        .then((res) => {
+          console.log("Posting Data", res);
+        })
         .catch((err) => console.log(err));
     },
   },

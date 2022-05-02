@@ -4,7 +4,9 @@ const app = express();
 
 const jwt = require("jsonwebtoken");
 
-require("dotenv").config();
+const dotenv = require("dotenv");
+
+dotenv.config({ path: "./env" });
 
 app.use(express.json());
 
