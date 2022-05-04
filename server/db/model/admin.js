@@ -26,7 +26,7 @@ const adminSchema = new mongoose.Schema({
     unique: "company already exists",
   },
   phoneNumber: {
-    type: String,
+    type: Number,
     required: true,
     minlength: 10,
     maxlength: 12,

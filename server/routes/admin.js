@@ -93,14 +93,14 @@ router.post("/admin/signup", jsonParser, async (req, res) => {
   try {
     const existingUser = await Admin.findOne({ email });
     if (existingUser) {
-      res.status(500).json({
+      return res.status(500).json({
         status: "Error",
         result: "Email already exists",
       });
     }
     const existingNumber = await Admin.findOne({ phoneNumber });
     if (existingNumber) {
-      res.status(500).json({
+      return res.status(500).json({
         status: "Error",
         result: "Number already exists",
       });
