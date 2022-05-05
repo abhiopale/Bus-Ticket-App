@@ -45,7 +45,7 @@ const AdminNav = () => {
                   textColor="inherit"
                   sx={{ justifyContent: "space-between" }}
                 >
-                  <Tab label="Upload Bus" />
+                  <Tab href="/admin/uploadbus" label="Upload Bus" />
                   <Tab label="Your Sales" />
                 </Tabs>
               </Typography>

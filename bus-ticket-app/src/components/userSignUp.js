@@ -1,27 +1,10 @@
 import React, { useState } from "react";
 
-import { useDispatch } from "react-redux";
-
 import { useNavigate } from "react-router-dom";
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
-import Footer from "./footer";
-
-import {
-  AppBar,
-  Tabs,
-  Tab,
-  Toolbar,
-  Typography,
-  Grid,
-  Paper,
-  Avatar,
-  TextField,
-  Button,
-} from "@mui/material";
-
-import UserNav from "./userNav";
+import { Grid, Paper, Avatar, TextField, Button } from "@mui/material";
 
 const axios = require("axios").default;
 
@@ -32,7 +15,6 @@ const UserSignUp = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -47,7 +29,7 @@ const UserSignUp = () => {
         password,
       })
       .then((res) => {
-        if (res.data.status == "Success") {
+        if (res.data.status === "Success") {
           navigate("/user/signin");
           console.log("Posting Data", res);
         } else {
@@ -55,8 +37,7 @@ const UserSignUp = () => {
         }
       })
       .catch((err) => {
-        alert("Incorrect info please add the correct info");
-        console.log(err);
+        alert(err.response.data.result);
       });
   };
 
@@ -86,6 +67,7 @@ const UserSignUp = () => {
             >
               <TextField
                 fullWidth
+                required
                 sx={{ paddingTop: "30px" }}
                 variant="standard"
                 id="firstName"
@@ -96,6 +78,7 @@ const UserSignUp = () => {
               <TextField
                 sx={{ paddingTop: "30px" }}
                 fullWidth
+                required
                 id="lastName"
                 type="text"
                 onChange={(e) => setLastName(e.target.value)}
@@ -105,6 +88,7 @@ const UserSignUp = () => {
               <TextField
                 sx={{ paddingTop: "30px" }}
                 fullWidth
+                required
                 id="email"
                 type="email"
                 onChange={(e) => setEmail(e.target.value)}
@@ -114,6 +98,7 @@ const UserSignUp = () => {
               <TextField
                 sx={{ paddingTop: "30px" }}
                 fullWidth
+                required
                 id="phoneNumber"
                 type="text"
                 onChange={(e) => setPhoneNumber(e.target.value)}
@@ -123,6 +108,7 @@ const UserSignUp = () => {
               <TextField
                 sx={{ paddingTop: "30px" }}
                 fullWidth
+                required
                 id="password"
                 type="password"
                 onChange={(e) => setPassword(e.target.value)}

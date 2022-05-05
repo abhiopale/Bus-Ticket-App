@@ -8,20 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
-import {
-  AppBar,
-  Tabs,
-  Tab,
-  Toolbar,
-  Typography,
-  Grid,
-  Paper,
-  Avatar,
-  TextField,
-  Button,
-} from "@mui/material";
-
-import Footer from "./footer";
+import { Grid, Paper, Avatar, TextField, Button } from "@mui/material";
 
 const axios = require("axios").default;
 
@@ -50,9 +37,10 @@ const UserSignIn = () => {
               email,
             })
           );
+          alert("Successfully logged In");
         }
       })
-      .catch((err) => alert("Incorrect login Details"));
+      .catch((err) => alert(err.response.data.result));
   };
 
   return (

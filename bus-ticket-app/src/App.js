@@ -6,6 +6,7 @@ import AdminSignUp from "./components/adminSignUp";
 import AdminSignIn from "./components/adminSignIn";
 import AdminHome from "./components/adminHome";
 import UserHome from "./components/userHome";
+import UploadBus from "./components/UploadBus";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/admin/signin" element={<AdminSignIn />} />
         <Route path="/admin/home" element={<AdminHome />} />
         <Route path="/user/home" element={<UserHome />} />
+        <Route path="/admin/uploadbus" element={<UploadBus />} />
       </Routes>
     </BrowserRouter>
   );

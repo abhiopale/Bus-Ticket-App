@@ -27,8 +27,7 @@ const dotenv = require("dotenv");
 dotenv.config({ path: "../.env" });
 
 function adminAuth(req, res, next) {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader.split(" ")[1];
+  let token = req.headers.header1;
   if (token == null)
     return res.status(500).json({
       status: "Error",
@@ -58,8 +57,6 @@ router.post("/admin/login", jsonParser, async (req, res) => {
 
       if (passCheck == true) {
         let token = jwt.sign(Email, process.env.ADMIN_KEY);
-        // res.cookie("token", token);
-        // window.localStorage.setItem("token", token);
         res.json({
           status: "Success",
           result: {
@@ -89,20 +86,26 @@ router.post("/admin/login", jsonParser, async (req, res) => {
 });
 
 router.post("/admin/signup", jsonParser, async (req, res) => {
-  let { name, companyName, phoneNumber, email, password } = req.body;
+  let { name, companyName, email, phoneNumber, password } = req.body;
   try {
-    const existingUser = await Admin.findOne({ email });
-    if (existingUser) {
-      return res.status(500).json({
+    const existingAdmin = await Admin.findOne({ email });
+    const existingNumber = await Admin.findOne({ phoneNumber });
+    const existingCompany = await Admin.findOne({ companyName });
+
+    if (existingAdmin) {
+      res.status(500).json({
         status: "Error",
         result: "Email already exists",
       });
-    }
-    const existingNumber = await Admin.findOne({ phoneNumber });
-    if (existingNumber) {
-      return res.status(500).json({
+    } else if (existingNumber) {
+      res.status(500).json({
         status: "Error",
         result: "Number already exists",
+      });
+    } else if (existingCompany) {
+      res.status(500).json({
+        status: "Error",
+        result: "Company  already exists",
       });
     }
 
@@ -121,11 +124,11 @@ router.post("/admin/signup", jsonParser, async (req, res) => {
       admin.save();
       res.status(200).json({
         status: "Success",
-        result: "Successfully signed up In",
+        result: "Successfully logged In",
       });
     }
   } catch (e) {
-    res.status(500).json({
+    res.json({
       status: "error",
       result: "Please add the correct info",
     });

@@ -1,37 +1,34 @@
 import React, { useState } from "react";
-
-import { useNavigate } from "react-router-dom";
-
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-
 import { Grid, Paper, Avatar, TextField, Button } from "@mui/material";
+
+import DirectionsBusFilledOutlinedIcon from "@mui/icons-material/DirectionsBusFilledOutlined";
+
+import AdminNav from "./adminNav";
 
 const axios = require("axios").default;
 
-const AdminSignUp = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [companyName, setCompanyName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [password, setPassword] = useState("");
-
-  const navigate = useNavigate();
+const UploadBus = () => {
+  const [busNumber, setBusNumber] = useState("");
+  const [rate, setRate] = useState("");
+  const [date, setDate] = useState("");
+  const [seatCount, setSeatCount] = useState("");
+  const [arrival, setArrival] = useState("");
+  const [destination, setDestination] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    axios.defaults.headers.post["header1"] = localStorage.token;
     axios
-      .post("http://localhost:5000/admin/signup", {
-        name,
-        companyName,
-        email,
-        phoneNumber,
-        password,
+      .post("http://localhost:5000/admin/bus/uploaddetails", {
+        busNumber,
+        rate,
+        date,
+        seatCount,
+        arrival,
+        destination,
       })
       .then((res) => {
         if (res.data.status === "Success") {
-          navigate("/admin/signin");
-          console.log("Posting Data", res);
           alert(res.data.result);
         }
       })
@@ -42,17 +39,21 @@ const AdminSignUp = () => {
 
   return (
     <div>
+      <AdminNav></AdminNav>
       <Grid>
         <Grid align="center">
           <Paper
             elevation={20}
-            sx={{ padding: "30px 20px", width: "700px", margin: "100px auto" }}
+            sx={{
+              padding: "30px 20px",
+              width: "700px",
+              margin: "100px auto",
+            }}
           >
             <Avatar>
-              <LockOutlinedIcon />
+              <DirectionsBusFilledOutlinedIcon></DirectionsBusFilledOutlinedIcon>
             </Avatar>
-            <h1>BUS TICKET APP</h1>
-            <h2>Admin Sign Up</h2>
+            <h1>Bus Upload</h1>
 
             <form
               onSubmit={(e) => {
@@ -69,49 +70,59 @@ const AdminSignUp = () => {
                 required
                 sx={{ paddingTop: "30px" }}
                 variant="standard"
-                id="name"
+                id="busNumber"
                 type="text"
-                label="Name"
-                onChange={(e) => setName(e.target.value)}
+                label="Bus Number"
+                onChange={(e) => setBusNumber(e.target.value)}
               />
               <TextField
                 sx={{ paddingTop: "30px" }}
                 fullWidth
                 required
-                id="companyName"
+                id="rate"
+                type="number"
+                onChange={(e) => setRate(e.target.value)}
+                label="Rate"
+                variant="standard"
+              ></TextField>
+              <TextField
+                sx={{ paddingTop: "30px" }}
+                fullWidth
+                required
+                id="date"
+                type="date"
+                onChange={(e) => setDate(e.target.value)}
+                label="Date"
+                variant="standard"
+              ></TextField>
+              <TextField
+                sx={{ paddingTop: "30px" }}
+                fullWidth
+                required
+                id="seatCount"
+                type="number"
+                onChange={(e) => setSeatCount(e.target.value)}
+                label="Seat Count"
+                variant="standard"
+              ></TextField>
+              <TextField
+                sx={{ paddingTop: "30px" }}
+                fullWidth
+                required
+                id="arrival"
                 type="text"
-                onChange={(e) => setCompanyName(e.target.value)}
-                label="Company Name"
+                onChange={(e) => setArrival(e.target.value)}
+                label="Arrival"
                 variant="standard"
               ></TextField>
               <TextField
                 sx={{ paddingTop: "30px" }}
                 fullWidth
                 required
-                id="email"
-                type="email"
-                onChange={(e) => setEmail(e.target.value)}
-                label="Email"
-                variant="standard"
-              ></TextField>
-              <TextField
-                sx={{ paddingTop: "30px" }}
-                fullWidth
-                required
-                id="phoneNumber"
+                id="destiation"
                 type="text"
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                label="Phone Number"
-                variant="standard"
-              ></TextField>
-              <TextField
-                sx={{ paddingTop: "30px" }}
-                fullWidth
-                required
-                id="password"
-                type="password"
-                onChange={(e) => setPassword(e.target.value)}
-                label="Password"
+                onChange={(e) => setDestination(e.target.value)}
+                label="Destination"
                 variant="standard"
               ></TextField>
               <Grid sx={{ paddingTop: "50px" }}>
@@ -121,11 +132,10 @@ const AdminSignUp = () => {
                   variant="contained"
                   color="primary"
                 >
-                  Sign Up
+                  Register Trip
                 </Button>
               </Grid>
             </form>
-            <a href="/user/signin">Already have an account?</a>
           </Paper>
         </Grid>
       </Grid>
@@ -133,4 +143,4 @@ const AdminSignUp = () => {
   );
 };
 
-export default AdminSignUp;
+export default UploadBus;

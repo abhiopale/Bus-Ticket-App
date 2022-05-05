@@ -23,19 +23,16 @@ const adminSchema = new mongoose.Schema({
     minlength: 3,
     lowercase: true,
     trim: true,
-    unique: "company already exists",
   },
   phoneNumber: {
-    type: Number,
+    type: String,
     required: true,
     minlength: 10,
     maxlength: 12,
-    unique: "number already exists",
   },
   email: {
     type: String,
     required: true,
-    unique: "email already exists",
   },
   isAdmin: {
     type: Boolean,

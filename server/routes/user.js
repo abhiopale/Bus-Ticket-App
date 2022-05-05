@@ -98,15 +98,13 @@ router.post("/user/signup", jsonParser, async (req, res) => {
   let { firstName, lastName, phoneNumber, email, password } = req.body;
   try {
     const existingUser = await User.findOne({ email });
+    const existingNumber = await User.findOne({ phoneNumber });
     if (existingUser) {
       res.status(500).json({
         status: "Error",
         result: "Email already exists",
       });
-    }
-
-    const existingNumber = await User.findOne({ phoneNumber });
-    if (existingNumber) {
+    } else if (existingNumber) {
       res.status(500).json({
         status: "Error",
         result: "Number already exists",
