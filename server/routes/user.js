@@ -35,8 +35,7 @@ const values = require("@hapi/joi/lib/values");
 const jsonParser = bodyParser.json();
 
 function userAuth(req, res, next) {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader.split(" ")[1];
+  let token = req.headers.header1;
   if (token == null)
     return res.status(500).json({
       status: "Error",

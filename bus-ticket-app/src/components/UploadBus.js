@@ -11,6 +11,7 @@ const UploadBus = () => {
   const [busNumber, setBusNumber] = useState("");
   const [rate, setRate] = useState("");
   const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
   const [seatCount, setSeatCount] = useState("");
   const [arrival, setArrival] = useState("");
   const [destination, setDestination] = useState("");
@@ -25,6 +26,7 @@ const UploadBus = () => {
         date,
         seatCount,
         arrival,
+        time,
         destination,
       })
       .then((res) => {
@@ -93,6 +95,16 @@ const UploadBus = () => {
                 type="date"
                 onChange={(e) => setDate(e.target.value)}
                 label="Date"
+                variant="standard"
+              ></TextField>
+              <TextField
+                sx={{ paddingTop: "30px" }}
+                fullWidth
+                required
+                id="time"
+                type="time"
+                onChange={(e) => setTime(e.target.value)}
+                label="Time"
                 variant="standard"
               ></TextField>
               <TextField
