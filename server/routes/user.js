@@ -242,13 +242,13 @@ router.post("/user/bus/booktickets", userAuth, jsonParser, async (req, res) => {
 });
 
 router.post("/user/bus/details", userAuth, jsonParser, async (req, res) => {
-  let { _id } = req.body;
+  let { busid } = req.body;
   try {
-    let busDetails = await Bus.findOne({ _id });
+    let busDetails = await Bus.findOne({ _id: busid });
     if (busDetails) {
       res.json({
         status: "Success",
-        result: busDetails,
+        result: busDetails.seats,
       });
     } else {
       res.status(500).json({

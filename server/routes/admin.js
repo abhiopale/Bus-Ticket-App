@@ -170,6 +170,7 @@ router.post(
             seats[i] = {
               isBooked: false,
               ticket: null,
+              seatNo: i,
             };
           }
           const bus = new Bus({

@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 import { Grid, Paper, Avatar, TextField, Button } from "@mui/material";
 
 import Navbar from "./userNav";
+
+import { Link } from "react-router-dom";
+
+import { useNavigate } from "react-router-dom";
 
 const axios = require("axios").default;
 
@@ -13,7 +17,7 @@ const UserHome = () => {
   const [to, setTo] = useState("");
   const [date, setDate] = useState("");
   const [buses, setBuses] = useState([]);
-  useEffect(() => {}, [buses]);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -137,17 +141,19 @@ const UserHome = () => {
                   {bus.time}
 
                   <div style={{ paddingBottom: "2vh" }}>
-                    <Button
-                      sx={{
-                        width: "20vh",
-                        marginLeft: "150vh",
-                      }}
-                      type="submit"
-                      variant="contained"
-                      color="primary"
-                    >
-                      Book Ticket
-                    </Button>
+                    <Link to={`/user/bus/${bus._id}`}>
+                      <Button
+                        sx={{
+                          width: "20vh",
+                          marginLeft: "150vh",
+                        }}
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                      >
+                        Book Ticket
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </Paper>
