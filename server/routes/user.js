@@ -35,7 +35,7 @@ const values = require("@hapi/joi/lib/values");
 const jsonParser = bodyParser.json();
 
 function userAuth(req, res, next) {
-  let token = req.headers.header1;
+  let token = req.headers.authorization;
   if (token == null)
     return res.status(500).json({
       status: "Error",
@@ -163,6 +163,7 @@ router.post("/user/bus/search", userAuth, jsonParser, async (req, res) => {
 router.post("/user/bus/booktickets", userAuth, jsonParser, async (req, res) => {
   let email = req.email;
   const { id, seatNo, modeOfPayment, passengerName } = req.body;
+
   try {
     let ticketList = [];
     let busExist = await Bus.findOne({ _id: id });
@@ -174,7 +175,7 @@ router.post("/user/bus/booktickets", userAuth, jsonParser, async (req, res) => {
     } else if (seatNo.length != passengerName.length) {
       res.status(500).json({
         status: "Error",
-        result: "Please add the passenger Details",
+        result: "Please add the  Details",
       });
     } else {
       let count = 0;

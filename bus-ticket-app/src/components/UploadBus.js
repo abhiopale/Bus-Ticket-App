@@ -18,7 +18,7 @@ const UploadBus = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.defaults.headers.post["header1"] = localStorage.token;
+    axios.defaults.headers.post["authorization"] = localStorage.token;
     axios
       .post("http://localhost:5000/admin/bus/uploaddetails", {
         busNumber,
