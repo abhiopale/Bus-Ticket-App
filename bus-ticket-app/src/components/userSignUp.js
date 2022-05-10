@@ -2,6 +2,8 @@ import React, { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
+import Nav from "./Nav";
+
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 import { Grid, Paper, Avatar, TextField, Button } from "@mui/material";
@@ -43,11 +45,12 @@ const UserSignUp = () => {
 
   return (
     <div>
+      <Nav />
       <Grid>
         <Grid align="center">
           <Paper
             elevation={20}
-            sx={{ padding: "30px 20px", width: "1000px", margin: "100px auto" }}
+            sx={{ padding: "30px 20px", width: "80%", margin: "100px auto" }}
           >
             <Avatar>
               <LockOutlinedIcon />

@@ -27,7 +27,7 @@ const dotenv = require("dotenv");
 dotenv.config({ path: "../.env" });
 
 function adminAuth(req, res, next) {
-  let token = req.headers.header1;
+  let token = req.headers.authorization;
   if (token == null)
     return res.status(500).json({
       status: "Error",
@@ -204,25 +204,69 @@ router.post(
   }
 );
 
+router.get("/admin/yourbus", adminAuth, jsonParser, async (req, res) => {
+  let email = req.email;
+  try {
+    let admin = await Admin.findOne({ email });
+    res.json({
+      status: "Success",
+      result: admin.yourBus,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      result: "Please fill in the appropriate details.",
+    });
+  }
+});
+
+router.post("/admin/bus/details", adminAuth, jsonParser, async (req, res) => {
+  let { busid } = req.body;
+  try {
+    let busDetails = await Bus.findOne({ _id: busid });
+    if (busDetails) {
+      res.json({
+        status: "Success",
+        result: busDetails.seats,
+      });
+    } else {
+      res.status(500).json({
+        status: "Error",
+        result: "Please fill in the appropriate details.",
+      });
+    }
+  } catch (error) {
+    {
+      res.status(500).json({
+        status: "Error",
+        result: "Please fill in the appropriate details.",
+      });
+    }
+  }
+});
+
 router.post("/admin/bus/sales", adminAuth, jsonParser, async (req, res) => {
   let email = req.email;
-  let _id = req.body._id;
+  let _id = req.body.busid;
+
   try {
     let adminInfo = await Admin.findOne({ email });
+
     let busInfo = await Bus.findOne({ _id });
+
     if (adminInfo.companyName === busInfo.name) {
       let soldTickets = await Ticket.find({
         isBooked: true,
         busNumber: busInfo.busNumber,
       });
-      console.log(soldTickets);
+
       let sales = 0;
       for (i = 0; i < soldTickets.length; i++) {
         sales += soldTickets[i].rate;
       }
       res.json({
         status: "Success",
-        result: "Sales of bus Number " + busInfo.busNumber + " is " + sales,
+        result: sales,
       });
     }
   } catch (error) {

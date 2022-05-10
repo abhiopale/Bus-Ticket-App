@@ -6,6 +6,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 import { Grid, Paper, Avatar, TextField, Button } from "@mui/material";
 
+import Nav from "./Nav";
+
 const axios = require("axios").default;
 
 const AdminSignUp = () => {
@@ -42,6 +44,7 @@ const AdminSignUp = () => {
 
   return (
     <div>
+      <Nav />
       <Grid>
         <Grid align="center">
           <Paper

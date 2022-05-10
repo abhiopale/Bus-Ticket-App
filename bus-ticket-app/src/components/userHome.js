@@ -2,13 +2,22 @@ import React, { useState } from "react";
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
-import { Grid, Paper, Avatar, TextField, Button } from "@mui/material";
+import {
+  Grid,
+  Paper,
+  Box,
+  Card,
+  CardActions,
+  CardContent,
+  Typography,
+  Avatar,
+  TextField,
+  Button,
+} from "@mui/material";
 
-import Navbar from "./userNav";
+import Nav from "./Nav";
 
 import { Link } from "react-router-dom";
-
-import { useNavigate } from "react-router-dom";
 
 const axios = require("axios").default;
 
@@ -17,11 +26,19 @@ const UserHome = () => {
   const [to, setTo] = useState("");
   const [date, setDate] = useState("");
   const [buses, setBuses] = useState([]);
-  const navigate = useNavigate();
+
+  const bull = (
+    <Box
+      component="span"
+      sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
+    >
+      •
+    </Box>
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.defaults.headers.post["authorization"] = localStorage.token;
+    axios.defaults.headers.post["authorization"] = localStorage.userToken;
     axios
       .post("http://localhost:5000/user/bus/search", {
         from,
@@ -40,14 +57,14 @@ const UserHome = () => {
 
   return (
     <div>
-      <Navbar />
+      <Nav />
       <Grid>
         <Grid align="center">
           <Paper
             elevation={20}
             sx={{
               padding: "30px 20px",
-              width: "120vh",
+              width: "80%",
               margin: "100px auto",
             }}
           >
@@ -110,54 +127,118 @@ const UserHome = () => {
       <div>
         {buses.map((bus) => {
           return (
-            <Grid sx={{ paddingTop: "20px" }}>
-              <Paper elevation={10}>
+            <Card
+              elevation={10}
+              sx={{
+                minWidth: 275,
+                margin: "5%",
+              }}
+            >
+              <CardContent style={{ marginLeft: "10%" }}>
                 <div
-                  style={{
-                    paddingLeft: "10vh",
-                  }}
+                  style={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  <h2
+                  {" "}
+                  <Typography
+                    variant="h5"
+                    component="div"
                     style={{
-                      textAlign: "center",
-                      color: "#2196f3",
-                      fontWeight: 4000,
-                      fontSize: "2.4rem",
+                      fontWeight: 1000,
+                      fontSize: "3rem",
                     }}
                   >
                     {bus.name}
-                  </h2>
+                  </Typography>
+                  <Typography variant="body2">
+                    <span
+                      style={{
+                        fontWeight: 1000,
+                        fontSize: "2.5rem",
+                      }}
+                    >
+                      Rate:
+                    </span>
+                    <span
+                      style={{
+                        fontWeight: 1000,
+                        fontSize: "1.3rem",
+                        fontSize: "2.5rem",
+                      }}
+                    >
+                      {" "}
+                      {bus.rate}
+                    </span>
+                    <br />
+                  </Typography>
                 </div>
-                <div style={{ marginLeft: "20vh" }}>
-                  <h3>ID : </h3>
-                  {bus._id}
-                  <h3>Bus Number : </h3>
-                  {bus.busNumber}
-                  <h3>From : </h3>
-                  {bus.arrival}
-                  <h3>To : </h3>
-                  {bus.destination}
-                  <h3>Timing : </h3>
-                  {bus.time}
-
-                  <div style={{ paddingBottom: "2vh" }}>
-                    <Link to={`/user/bus/${bus._id}`}>
-                      <Button
-                        sx={{
-                          width: "20vh",
-                          marginLeft: "150vh",
-                        }}
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                      >
-                        Book Ticket
-                      </Button>
-                    </Link>
-                  </div>
+                <Typography
+                  sx={{
+                    fontSize: 14,
+                    fontWeight: 500,
+                    fontSize: "1.3rem",
+                    marginTop: "1%",
+                  }}
+                  gutterBottom
+                >
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: "1.3rem",
+                      fontSize: "1.3rem",
+                    }}
+                  >
+                    {" "}
+                    Date:
+                  </span>
+                  <span color="text.secondary" style={{ fontSize: "1.3rem" }}>
+                    {" "}
+                    {bus.date}
+                  </span>
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: 14,
+                    fontWeight: 500,
+                    fontSize: "1.3rem",
+                    marginTop: "1%",
+                  }}
+                >
+                  <span style={{ fontWeight: 1000, fontSize: "1.3rem" }}>
+                    Timings:{" "}
+                  </span>{" "}
+                  <span color="text.secondary"> {bus.time}</span>
+                </Typography>
+                <Typography
+                  sx={{ fontSize: "1.3rem", fontWeight: 500, marginTop: "1%" }}
+                >
+                  <span style={{ fontWeight: 1000 }}>From: </span>{" "}
+                  <span color="text.secondary"> {bus.arrival}</span>
+                </Typography>{" "}
+                <Typography
+                  sx={{ fontSize: "1.3rem", fontWeight: 500, marginTop: "1%" }}
+                >
+                  <span style={{ fontWeight: 1000 }}>To: </span>{" "}
+                  <span color="text.secondary"> {bus.destination}</span>
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <div style={{ paddingBottom: "2vh" }}>
+                  <Link to={`/user/bus/${bus._id}`}>
+                    <Button
+                      sx={{
+                        width: "20vh",
+                        marginLeft: "150vh",
+                      }}
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                    >
+                      Book Ticket
+                    </Button>
+                  </Link>
                 </div>
-              </Paper>
-            </Grid>
+              </CardActions>
+            </Card>
           );
         })}
       </div>

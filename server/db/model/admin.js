@@ -14,14 +14,12 @@ const adminSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 3,
-    lowercase: true,
     trim: true,
   },
   companyName: {
     type: String,
     required: true,
     minlength: 3,
-    lowercase: true,
     trim: true,
   },
   phoneNumber: {

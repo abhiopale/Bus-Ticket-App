@@ -6,6 +6,8 @@ import { userSignIn } from "../redux/slices/userSignInSlice";
 
 import { useNavigate } from "react-router-dom";
 
+import Nav from "./Nav";
+
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 import { Grid, Paper, Avatar, TextField, Button } from "@mui/material";
@@ -30,7 +32,7 @@ const UserSignIn = () => {
       .then((res) => {
         if (res.data.status === "Success") {
           let token = res.data.result.token;
-          localStorage.setItem("token", token);
+          localStorage.setItem("userToken", token);
           navigate("/user/home");
           dispatch(
             userSignIn({
@@ -45,6 +47,7 @@ const UserSignIn = () => {
 
   return (
     <div>
+      <Nav />
       <Grid>
         <Grid align="center">
           <Paper

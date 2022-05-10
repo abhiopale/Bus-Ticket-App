@@ -1,15 +1,15 @@
-import React from "react";
-
 import {
   AppBar,
-  Tabs,
-  Tab,
   Toolbar,
+  Tab,
+  Tabs,
   Typography,
-  useMediaQuery,
   useTheme,
+  useMediaQuery,
 } from "@mui/material";
+import React from "react";
 
+import { Link } from "react-router-dom";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 
 import DrawerAdmin from "./DrawerAdmin";
@@ -21,9 +21,9 @@ const AdminNav = () => {
     <React.Fragment>
       <AppBar>
         <Toolbar>
-          <Toolbar sx={{ justifyContent: "space-between" }}>
+          <Toolbar sx={{ justifyContent: "center" }}>
             <Typography sx={{ display: "flex" }}>
-              <h2>Bus Ticket App</h2>
+              <h2 style={{ textAlign: "center" }}>Bus Ticket App</h2>
               <ConfirmationNumberIcon
                 style={{
                   fontSize: "40px",
@@ -45,8 +45,8 @@ const AdminNav = () => {
                   textColor="inherit"
                   sx={{ justifyContent: "space-between" }}
                 >
-                  <Tab href="/admin/uploadbus" label="Upload Bus" />
-                  <Tab label="Your Sales" />
+                  <Tab href="/admin/home" label="Home" />
+                  <Tab href="/admin/yourbus" label="Your Bus" />
                 </Tabs>
               </Typography>
             </>

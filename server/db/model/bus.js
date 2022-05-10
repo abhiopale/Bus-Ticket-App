@@ -33,9 +33,11 @@ const busSchema = new mongoose.Schema({
   },
   arrival: {
     type: String,
+    lowercase: true,
   },
   destination: {
     type: String,
+    lowercase: true,
   },
 });
 

@@ -3,7 +3,7 @@ import { Grid, Paper, Avatar, TextField, Button } from "@mui/material";
 
 import DirectionsBusFilledOutlinedIcon from "@mui/icons-material/DirectionsBusFilledOutlined";
 
-import AdminNav from "./adminNav";
+import Nav from "./AdminNav";
 
 const axios = require("axios").default;
 
@@ -18,7 +18,7 @@ const UploadBus = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.defaults.headers.post["authorization"] = localStorage.token;
+    axios.defaults.headers.post["authorization"] = localStorage.adminToken;
     axios
       .post("http://localhost:5000/admin/bus/uploaddetails", {
         busNumber,
@@ -41,7 +41,7 @@ const UploadBus = () => {
 
   return (
     <div>
-      <AdminNav></AdminNav>
+      <Nav />
       <Grid>
         <Grid align="center">
           <Paper

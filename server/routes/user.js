@@ -43,12 +43,14 @@ function userAuth(req, res, next) {
     });
 
   jwt.verify(token, process.env.USER_KEY, (err, email) => {
-    if (err)
+    if (err) {
       return res.status(500).json({
         status: "Error",
         result: "Access Denied",
       });
-    req.email = email;
+    } else {
+      req.email = email;
+    }
   });
   next();
 }
@@ -198,6 +200,7 @@ router.post("/user/bus/booktickets", userAuth, jsonParser, async (req, res) => {
             customerName: passengerName[i],
             customerEmail: email,
             isBooked: true,
+            bus: busExist.name,
             busNumber: busExist.busNumber,
             rate: busExist.rate,
             date: busExist.date,

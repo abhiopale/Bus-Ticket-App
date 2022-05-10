@@ -1,6 +1,8 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { Button, TextField, Grid, Paper } from "@mui/material";
+import Nav from "./Nav";
+
 const axios = require("axios").default;
 
 const TicketBooking = () => {
@@ -10,6 +12,7 @@ const TicketBooking = () => {
   const [modeOfPayment, setModeOfPayment] = useState("");
   const [hideForm, setHideForm] = useState(true);
   const [passengerName, setPassengerName] = useState([]);
+  const navigate = useNavigate();
 
   const seatSelected = (seat) => {
     setSeatNo([...seatNo, seat]);
@@ -20,7 +23,7 @@ const TicketBooking = () => {
   };
 
   const getTickets = (busid) => {
-    axios.defaults.headers.post["authorization"] = localStorage.token;
+    axios.defaults.headers.post["authorization"] = localStorage.userToken;
     axios
       .post("http://localhost:5000/user/bus/details", {
         busid,
@@ -36,7 +39,7 @@ const TicketBooking = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.defaults.headers.post["authorization"] = localStorage.token;
+    axios.defaults.headers.post["authorization"] = localStorage.userToken;
     axios
       .post("http://localhost:5000/user/bus/booktickets", {
         id: busid,
@@ -47,14 +50,11 @@ const TicketBooking = () => {
       .then((res) => {
         if (res.data.status === "Success") {
           alert(res.data.result);
+          navigate("/user/yourticket");
         }
       })
       .catch((err) => alert(err.response.data.result));
   };
-  // callBack(busid, seatNo, modeOfPayment, passengerName);
-  // console.log(seatNo, passengerName);
-
-  // setSeatNo(seatArray, callBack(busid, seatNo, modeOfPayment, passengerName));
 
   useEffect(() => {
     getTickets(busid);
@@ -64,6 +64,7 @@ const TicketBooking = () => {
 
   return (
     <div>
+      <Nav />
       {hideForm ? (
         <Paper
           elevation={20}
@@ -116,7 +117,7 @@ const TicketBooking = () => {
             variant="contained"
             color="primary"
           >
-            Search
+            Proceed
           </Button>
         </Paper>
       ) : (

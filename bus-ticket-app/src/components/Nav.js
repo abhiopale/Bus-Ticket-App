@@ -1,8 +1,8 @@
 import {
   AppBar,
+  Toolbar,
   Tabs,
   Tab,
-  Toolbar,
   Typography,
   useTheme,
   useMediaQuery,
@@ -12,16 +12,16 @@ import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 
 import DrawerUser from "./DrawerUser";
 
-const UserNav = () => {
+const Nav = () => {
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <React.Fragment>
       <AppBar>
         <Toolbar>
-          <Toolbar sx={{ justifyContent: "space-between" }}>
+          <Toolbar sx={{ justifyContent: "center" }}>
             <Typography sx={{ display: "flex" }}>
-              <h2>Bus Ticket App</h2>
+              <h2 style={{ textAlign: "center" }}>Bus Ticket App</h2>
               <ConfirmationNumberIcon
                 style={{
                   fontSize: "40px",
@@ -43,8 +43,8 @@ const UserNav = () => {
                   textColor="inherit"
                   sx={{ justifyContent: "space-between" }}
                 >
-                  <Tab label="Book Tickets" />
-                  <Tab label="Your Tickets" />
+                  <Tab href="/user/home" label="Home" />
+                  <Tab href="/user/yourticket" label="Your ticket" />
                 </Tabs>
               </Typography>
             </>
@@ -55,4 +55,4 @@ const UserNav = () => {
   );
 };
 
-export default UserNav;
+export default Nav;

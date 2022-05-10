@@ -9,6 +9,8 @@ import {
   IconButton,
 } from "@mui/material";
 
+import { Link } from "react-router-dom";
+
 import MenuIcon from "@mui/icons-material/Menu";
 
 const DrawerAdmin = () => {
@@ -16,18 +18,24 @@ const DrawerAdmin = () => {
   return (
     <React.Fragment>
       <Drawer open={openDrawer} onClose={() => setopenDrawer(false)}>
-        <List>
-          <ListItemButton onClick={() => setopenDrawer(false)}>
-            <ListItemIcon>
-              <ListItemText>Upload Bus</ListItemText>
-            </ListItemIcon>
-          </ListItemButton>
-          <ListItemButton onClick={() => setopenDrawer(false)}>
-            <ListItemIcon>
-              <ListItemText>Your Sales</ListItemText>
-            </ListItemIcon>
-          </ListItemButton>
-        </List>
+        <Link to="/admin/home">
+          <List>
+            <ListItemButton onClick={() => setopenDrawer(false)}>
+              <ListItemIcon>
+                <ListItemText>Home</ListItemText>
+              </ListItemIcon>
+            </ListItemButton>
+          </List>
+        </Link>
+        <Link to="/admin/yourbus">
+          <List>
+            <ListItemButton onClick={() => setopenDrawer(false)}>
+              <ListItemIcon>
+                <ListItemText>Your Bus </ListItemText>
+              </ListItemIcon>
+            </ListItemButton>
+          </List>
+        </Link>
       </Drawer>
       <IconButton
         sx={{ color: "white", marginLeft: "auto" }}
