@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { Button, Grid, Paper } from "@mui/material";
+import { useSnackbar } from "notistack";
 import Nav from "./Nav";
 
 const axios = require("axios").default;
@@ -9,6 +10,7 @@ const AdminSales = () => {
   const { busid } = useParams();
   const [tickets, settickets] = useState([]);
   const [Sales, setSales] = useState(null);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const getTickets = (busid) => {
     axios.defaults.headers.post["authorization"] = localStorage.adminToken;
@@ -21,7 +23,7 @@ const AdminSales = () => {
           settickets(Object.values(res.data.result));
         }
       })
-      .catch((err) => alert(err.response.data.result));
+      .catch((err) => enqueueSnackbar(err.response.data.result.toString()));
   };
 
   const getSales = (busid) => {
@@ -35,7 +37,7 @@ const AdminSales = () => {
           setSales(res.data.result);
         }
       })
-      .catch((err) => alert(err.response.data.result));
+      .catch((err) => enqueueSnackbar(err.response.data.result.toString()));
   };
 
   useEffect(() => {

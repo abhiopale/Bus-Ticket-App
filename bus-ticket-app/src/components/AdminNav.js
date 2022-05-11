@@ -9,14 +9,23 @@ import {
 } from "@mui/material";
 import React from "react";
 
-import { Link } from "react-router-dom";
+import LogoutIcon from "@mui/icons-material/Logout";
+
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 
 import DrawerAdmin from "./DrawerAdmin";
+import { useNavigate } from "react-router-dom";
 
 const AdminNav = () => {
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
+  const navigate = useNavigate();
+
+  const Logout = () => {
+    localStorage.removeItem("userToken");
+    navigate("/admin/signin");
+  };
+
   return (
     <React.Fragment>
       <AppBar>
@@ -47,6 +56,14 @@ const AdminNav = () => {
                 >
                   <Tab href="/admin/home" label="Home" />
                   <Tab href="/admin/yourbus" label="Your Bus" />
+                  <LogoutIcon
+                    sx={{
+                      fontSize: "200%",
+                      marginLeft: "10vh",
+                      marginTop: "1vh",
+                    }}
+                    onClick={() => Logout()}
+                  ></LogoutIcon>
                 </Tabs>
               </Typography>
             </>

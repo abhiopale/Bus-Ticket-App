@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
+import { useSnackbar } from "notistack";
 import { Button, TextField, Grid, Paper } from "@mui/material";
 import Nav from "./Nav";
 
@@ -12,6 +13,9 @@ const TicketBooking = () => {
   const [modeOfPayment, setModeOfPayment] = useState("");
   const [hideForm, setHideForm] = useState(true);
   const [passengerName, setPassengerName] = useState([]);
+
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
   const navigate = useNavigate();
 
   const seatSelected = (seat) => {
@@ -33,7 +37,7 @@ const TicketBooking = () => {
           settickets(Object.values(res.data.result));
         }
       })
-      .catch((err) => alert(err.response.data.result));
+      .catch((err) => enqueueSnackbar(err.response.data.result.toString()));
   };
 
   const handleSubmit = (e) => {
@@ -49,18 +53,16 @@ const TicketBooking = () => {
       })
       .then((res) => {
         if (res.data.status === "Success") {
-          alert(res.data.result);
+          enqueueSnackbar(res.data.result.toString());
           navigate("/user/yourticket");
         }
       })
-      .catch((err) => alert(err.response.data.result));
+      .catch((err) => enqueueSnackbar(err.response.data.result.toString()));
   };
 
   useEffect(() => {
     getTickets(busid);
   }, []);
-
-  useEffect(() => {}, []);
 
   return (
     <div>
@@ -89,17 +91,23 @@ const TicketBooking = () => {
               return (
                 <Grid>
                   <Button
+                    // className={style}
+                    id={ticket.seatNo}
                     sx={{
                       width: "100px",
                       marginLeft: "12vh",
                       marginBottom: "2vh",
+                      backgroundColor: seatNo.includes(ticket.seatNo)
+                        ? "gray"
+                        : null,
                     }}
-                    disabled={ticket.isBooked}
+                    // disabled={ticket.isBooked}
                     type="submit"
                     variant="contained"
                     color="primary"
-                    onClick={() => {
+                    onClick={(e) => {
                       seatSelected(ticket.seatNo);
+                      // changeStyle(e.target);
                     }}
                   >
                     {ticket.seatNo}

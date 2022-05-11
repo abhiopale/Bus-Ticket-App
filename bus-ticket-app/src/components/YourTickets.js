@@ -10,10 +10,13 @@ import {
 
 import Nav from "./Nav";
 
+import { useSnackbar } from "notistack";
+
 const axios = require("axios").default;
 
 const YourTickets = () => {
   const [tickets, setTickets] = useState([]);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const getTickets = () => {
     axios.defaults.headers.get["authorization"] = localStorage.userToken;
@@ -23,10 +26,10 @@ const YourTickets = () => {
         if (res.data.status === "Success") {
           setTickets(Object.values(res.data.result));
         } else {
-          alert("No buses Availble");
+          enqueueSnackbar("No buses Availble");
         }
       })
-      .catch((err) => alert(err.response.data.result));
+      .catch((err) => enqueueSnackbar(err.response.data.result.toString()));
   };
 
   useEffect(() => {

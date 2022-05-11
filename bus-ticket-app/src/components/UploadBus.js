@@ -5,6 +5,8 @@ import DirectionsBusFilledOutlinedIcon from "@mui/icons-material/DirectionsBusFi
 
 import Nav from "./AdminNav";
 
+import { useSnackbar } from "notistack";
+
 const axios = require("axios").default;
 
 const UploadBus = () => {
@@ -15,6 +17,7 @@ const UploadBus = () => {
   const [seatCount, setSeatCount] = useState("");
   const [arrival, setArrival] = useState("");
   const [destination, setDestination] = useState("");
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -31,11 +34,11 @@ const UploadBus = () => {
       })
       .then((res) => {
         if (res.data.status === "Success") {
-          alert(res.data.result);
+          enqueueSnackbar(res.data.result.toString());
         }
       })
       .catch((err) => {
-        alert(err.response.data.result);
+        enqueueSnackbar(err.response.data.result.toString());
       });
   };
 

@@ -2,7 +2,9 @@ import React, { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
-import Nav from "./Nav";
+import Navbar from "./Navbar";
+
+import { useSnackbar } from "notistack";
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
@@ -16,6 +18,7 @@ const UserSignUp = () => {
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const navigate = useNavigate();
 
@@ -33,19 +36,18 @@ const UserSignUp = () => {
       .then((res) => {
         if (res.data.status === "Success") {
           navigate("/user/signin");
-          console.log("Posting Data", res);
         } else {
-          alert(res.data.result);
+          enqueueSnackbar(res.data.result.toString());
         }
       })
       .catch((err) => {
-        alert(err.response.data.result);
+        enqueueSnackbar(err.response.data.result.toString());
       });
   };
 
   return (
     <div>
-      <Nav />
+      <Navbar />
       <Grid>
         <Grid align="center">
           <Paper

@@ -70,6 +70,7 @@ router.post("/user/login", jsonParser, async (req, res) => {
         res.json({
           status: "Success",
           result: {
+            message: "Successfully Signed Up",
             token: token,
           },
         });
@@ -212,6 +213,7 @@ router.post("/user/bus/booktickets", userAuth, jsonParser, async (req, res) => {
           newSeatCollection[seatNo[i]] = {
             isBooked: true,
             ticket: ticket._id,
+            seatNo: seatNo[id],
           };
           ticket.save();
           ticketList.push(ticket);

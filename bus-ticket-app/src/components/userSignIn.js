@@ -2,11 +2,13 @@ import React, { useState } from "react";
 
 import { useDispatch } from "react-redux";
 
+import { useSnackbar } from "notistack";
+
 import { userSignIn } from "../redux/slices/userSignInSlice";
 
 import { useNavigate } from "react-router-dom";
 
-import Nav from "./Nav";
+import Navbar from "./Navbar";
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
@@ -17,6 +19,8 @@ const axios = require("axios").default;
 const UserSignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -39,15 +43,15 @@ const UserSignIn = () => {
               email,
             })
           );
-          alert("Successfully logged In");
+          enqueueSnackbar(res.data.result.message.toString());
         }
       })
-      .catch((err) => alert(err.response.data.result));
+      .catch((err) => enqueueSnackbar(err.response.data.result.toString()));
   };
 
   return (
     <div>
-      <Nav />
+      <Navbar />
       <Grid>
         <Grid align="center">
           <Paper

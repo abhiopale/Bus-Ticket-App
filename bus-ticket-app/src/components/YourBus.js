@@ -10,12 +10,15 @@ import {
 
 import { Link } from "react-router-dom";
 
+import { useSnackbar } from "notistack";
+
 import Nav from "./AdminNav";
 
 const axios = require("axios").default;
 
 const YourBus = () => {
   const [Buses, setBuses] = useState([]);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const getBus = () => {
     axios.defaults.headers.get["authorization"] = localStorage.adminToken;
@@ -26,10 +29,10 @@ const YourBus = () => {
           setBuses(res.data.result);
           console.log(Buses);
         } else {
-          alert("No buses Availble");
+          enqueueSnackbar("No buses Availble");
         }
       })
-      .catch((err) => alert(err.response.data.result));
+      .catch((err) => enqueueSnackbar(err.response.data.result.toString()));
   };
 
   useEffect(() => {

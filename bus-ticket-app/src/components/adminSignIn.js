@@ -6,7 +6,9 @@ import { adminSignIn } from "../redux/slices/adminSignInSlice";
 
 import { useNavigate } from "react-router-dom";
 
-import Nav from "./Nav";
+import Nav from "./Navbar";
+
+import { useSnackbar } from "notistack";
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
@@ -17,6 +19,7 @@ const axios = require("axios").default;
 const AdminSignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -38,10 +41,10 @@ const AdminSignIn = () => {
               email,
             })
           );
-          alert("Successfully logged In");
+          enqueueSnackbar("Successfully logged In");
         }
       })
-      .catch((err) => alert(err.response.data.result));
+      .catch((err) => enqueueSnackbar(err.response.data.result.toString()));
   };
 
   return (

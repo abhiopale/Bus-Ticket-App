@@ -17,6 +17,8 @@ import {
 
 import Nav from "./Nav";
 
+import { useSnackbar } from "notistack";
+
 import { Link } from "react-router-dom";
 
 const axios = require("axios").default;
@@ -26,6 +28,7 @@ const UserHome = () => {
   const [to, setTo] = useState("");
   const [date, setDate] = useState("");
   const [buses, setBuses] = useState([]);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const bull = (
     <Box
@@ -49,10 +52,10 @@ const UserHome = () => {
         if (res.data.status === "Success") {
           setBuses(Object.values(res.data.result));
         } else {
-          alert("No buses Availble");
+          enqueueSnackbar("No buses Availble");
         }
       })
-      .catch((err) => alert(err.response.data.result));
+      .catch((err) => enqueueSnackbar(err.response.data.result.toString()));
   };
 
   return (

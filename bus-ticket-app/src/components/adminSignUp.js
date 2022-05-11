@@ -6,12 +6,15 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 import { Grid, Paper, Avatar, TextField, Button } from "@mui/material";
 
-import Nav from "./Nav";
+import Nav from "./Navbar";
+
+import { useSnackbar } from "notistack";
 
 const axios = require("axios").default;
 
 const AdminSignUp = () => {
   const [name, setName] = useState("");
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [email, setEmail] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -34,11 +37,11 @@ const AdminSignUp = () => {
         if (res.data.status === "Success") {
           navigate("/admin/signin");
           console.log("Posting Data", res);
-          alert(res.data.result);
+          enqueueSnackbar(res.data.result.toString());
         }
       })
       .catch((err) => {
-        alert(err.response.data.result);
+        enqueueSnackbar(err.response.data.result.toString());
       });
   };
 
