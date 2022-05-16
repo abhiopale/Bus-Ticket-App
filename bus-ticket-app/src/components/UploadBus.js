@@ -51,11 +51,11 @@ const UploadBus = () => {
             elevation={20}
             sx={{
               padding: "30px 20px",
-              width: "700px",
+              width: "50%",
               margin: "100px auto",
             }}
           >
-            <Avatar>
+            <Avatar sx={{ backgroundColor: "crimson" }}>
               <DirectionsBusFilledOutlinedIcon></DirectionsBusFilledOutlinedIcon>
             </Avatar>
             <h1>Bus Upload</h1>
@@ -142,7 +142,7 @@ const UploadBus = () => {
               ></TextField>
               <Grid sx={{ paddingTop: "50px" }}>
                 <Button
-                  sx={{ width: "500px" }}
+                  sx={{ width: "40%", backgroundColor: "crimson" }}
                   type="submit"
                   variant="contained"
                   color="primary"

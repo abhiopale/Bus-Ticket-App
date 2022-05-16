@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 import Navbar from "./Navbar";
 
+import Footer from "./Footer";
+
 import { useSnackbar } from "notistack";
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -52,9 +54,9 @@ const UserSignUp = () => {
         <Grid align="center">
           <Paper
             elevation={20}
-            sx={{ padding: "30px 20px", width: "80%", margin: "100px auto" }}
+            sx={{ padding: "30px 20px", width: "50%", margin: "100px auto" }}
           >
-            <Avatar>
+            <Avatar sx={{ backgroundColor: "crimson" }}>
               <LockOutlinedIcon />
             </Avatar>
             <h1>BUS TICKET APP</h1>
@@ -122,10 +124,9 @@ const UserSignUp = () => {
               ></TextField>
               <Grid sx={{ paddingTop: "50px" }}>
                 <Button
-                  sx={{ width: "500px" }}
+                  sx={{ width: "500px", backgroundColor: "crimson" }}
                   type="submit"
                   variant="contained"
-                  color="primary"
                 >
                   Sign Up
                 </Button>
@@ -135,6 +136,7 @@ const UserSignUp = () => {
           </Paper>
         </Grid>
       </Grid>
+      <Footer />
     </div>
 
     // <div>

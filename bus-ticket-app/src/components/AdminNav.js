@@ -28,7 +28,7 @@ const AdminNav = () => {
 
   return (
     <React.Fragment>
-      <AppBar>
+      <AppBar sx={{ backgroundColor: "crimson" }}>
         <Toolbar>
           <Toolbar sx={{ justifyContent: "center" }}>
             <Typography sx={{ display: "flex" }}>
@@ -51,7 +51,7 @@ const AdminNav = () => {
             <>
               <Typography sx={{ marginLeft: "auto" }}>
                 <Tabs
-                  textColor="inherit"
+                  textColor="white"
                   sx={{ justifyContent: "space-between" }}
                 >
                   <Tab href="/admin/home" label="Home" />

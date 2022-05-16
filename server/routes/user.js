@@ -202,6 +202,7 @@ router.post("/user/bus/booktickets", userAuth, jsonParser, async (req, res) => {
             customerEmail: email,
             isBooked: true,
             bus: busExist.name,
+            busId: busExist._id,
             busNumber: busExist.busNumber,
             rate: busExist.rate,
             date: busExist.date,
@@ -213,7 +214,7 @@ router.post("/user/bus/booktickets", userAuth, jsonParser, async (req, res) => {
           newSeatCollection[seatNo[i]] = {
             isBooked: true,
             ticket: ticket._id,
-            seatNo: seatNo[id],
+            seatNo: seatNo[i],
           };
           ticket.save();
           ticketList.push(ticket);

@@ -39,7 +39,14 @@ const YourTickets = () => {
   return (
     <div>
       <Nav />
-      <h1 style={{ paddingTop: "5%", textAlign: "center" }}>
+      <h1
+        style={{
+          paddingTop: "10%",
+          textAlign: "center",
+          fontSize: "400%",
+          color: "crimson",
+        }}
+      >
         Here's Your Tickets
       </h1>
       {tickets.map((ticket) => {
@@ -60,24 +67,18 @@ const YourTickets = () => {
                   style={{
                     fontWeight: 1000,
                     fontSize: "3rem",
+                    color: "crimson",
                   }}
                 >
-                  {ticket.bus}
+                  {ticket.bus.toUpperCase()}
                 </Typography>
                 <Typography variant="body2">
                   <span
                     style={{
                       fontWeight: 1000,
-                      fontSize: "2.5rem",
-                    }}
-                  >
-                    Price:
-                  </span>
-                  <span
-                    style={{
-                      fontWeight: 1000,
                       fontSize: "1.3rem",
                       fontSize: "2.5rem",
+                      color: "crimson",
                     }}
                   >
                     {" "}
@@ -145,19 +146,28 @@ const YourTickets = () => {
                 <span style={{ fontWeight: 1000, fontSize: "1.3rem" }}>
                   Passenger:{" "}
                 </span>{" "}
-                <span color="text.secondary"> {ticket.customerName}</span>
+                <span color="text.secondary">
+                  {" "}
+                  {ticket.customerName.toUpperCase()}
+                </span>
               </Typography>
               <Typography
                 sx={{ fontSize: "1.3rem", fontWeight: 500, marginTop: "1%" }}
               >
                 <span style={{ fontWeight: 1000 }}>From: </span>{" "}
-                <span color="text.secondary"> {ticket.arrival}</span>
+                <span color="text.secondary">
+                  {" "}
+                  {ticket.arrival.toUpperCase()}
+                </span>
               </Typography>{" "}
               <Typography
                 sx={{ fontSize: "1.3rem", fontWeight: 500, marginTop: "1%" }}
               >
                 <span style={{ fontWeight: 1000 }}>To: </span>{" "}
-                <span color="text.secondary"> {ticket.destiny}</span>
+                <span color="text.secondary">
+                  {" "}
+                  {ticket.destiny.toUpperCase()}
+                </span>
               </Typography>
             </CardContent>
           </Card>

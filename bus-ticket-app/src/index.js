@@ -10,7 +10,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <App style={{ backgroundColor: "3F3F3F" }} />
     </Provider>
   </React.StrictMode>
 );

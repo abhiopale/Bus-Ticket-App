@@ -54,7 +54,7 @@ const AdminSignUp = () => {
             elevation={20}
             sx={{ padding: "30px 20px", width: "700px", margin: "100px auto" }}
           >
-            <Avatar>
+            <Avatar sx={{ backgroundColor: "crimson" }}>
               <LockOutlinedIcon />
             </Avatar>
             <h1>BUS TICKET APP</h1>
@@ -122,7 +122,7 @@ const AdminSignUp = () => {
               ></TextField>
               <Grid sx={{ paddingTop: "50px" }}>
                 <Button
-                  sx={{ width: "500px" }}
+                  sx={{ width: "500px", backgroundColor: "crimson" }}
                   type="submit"
                   variant="contained"
                   color="primary"

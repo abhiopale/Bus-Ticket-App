@@ -7,14 +7,12 @@ import AdminSignUp from "./components/adminSignUp";
 import AdminSignIn from "./components/adminSignIn";
 import UserHome from "./components/userHome";
 import UploadBus from "./components/UploadBus";
-import TicketBooking from "./components/TicketBooking";
 import YourTickets from "./components/YourTickets";
 import YourBus from "./components/YourBus";
-import AdminSales from "./components/adminSales";
 
 function App() {
   return (
-    <SnackbarProvider maxSnack={3} sx={{ color: "red" }}>
+    <SnackbarProvider maxSnack={3} style={{ background: "crimson" }}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<UserSignUp />} />
@@ -23,16 +21,7 @@ function App() {
           <Route path="/admin/signup" element={<AdminSignUp />} />
           <Route path="/admin/signin" element={<AdminSignIn />} />
 
-          <Route
-            path="/admin/home"
-            element={
-              localStorage.adminToken ? (
-                <UploadBus />
-              ) : (
-                <Navigate to="/admin/signin"></Navigate>
-              )
-            }
-          />
+          <Route path="/admin/home" element={<UploadBus />} />
           <Route
             path="/admin/yourbus"
             element={
@@ -43,37 +32,9 @@ function App() {
               )
             }
           />
-          <Route
-            path="/admin/bus/:busid"
-            element={
-              localStorage.adminToken ? (
-                <AdminSales />
-              ) : (
-                <Navigate to="/admin/signin"></Navigate>
-              )
-            }
-          />
 
-          <Route
-            path="/user/home"
-            element={
-              localStorage.userToken ? (
-                <UserHome />
-              ) : (
-                <Navigate to="/user/signin"></Navigate>
-              )
-            }
-          />
-          <Route
-            path="/user/bus/:busid"
-            element={
-              localStorage.userToken ? (
-                <TicketBooking />
-              ) : (
-                <Navigate to="/user/signin"></Navigate>
-              )
-            }
-          />
+          <Route path="/user/home" element={<UserHome />} />
+
           <Route
             path="/user/yourticket"
             element={

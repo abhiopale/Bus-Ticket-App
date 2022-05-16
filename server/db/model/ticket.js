@@ -29,6 +29,9 @@ const ticketSchema = new mongoose.Schema({
     minlength: 3,
     trim: true,
   },
+  busId: {
+    type: String,
+  },
   rate: {
     type: Number,
     required: true,

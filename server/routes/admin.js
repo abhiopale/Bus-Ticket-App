@@ -248,7 +248,6 @@ router.post("/admin/bus/details", adminAuth, jsonParser, async (req, res) => {
 router.post("/admin/bus/sales", adminAuth, jsonParser, async (req, res) => {
   let email = req.email;
   let _id = req.body.busid;
-
   try {
     let adminInfo = await Admin.findOne({ email });
 
@@ -257,7 +256,7 @@ router.post("/admin/bus/sales", adminAuth, jsonParser, async (req, res) => {
     if (adminInfo.companyName === busInfo.name) {
       let soldTickets = await Ticket.find({
         isBooked: true,
-        busNumber: busInfo.busNumber,
+        busId: busInfo._id,
       });
 
       let sales = 0;

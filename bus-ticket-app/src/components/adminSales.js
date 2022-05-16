@@ -26,11 +26,12 @@ const AdminSales = () => {
       .catch((err) => enqueueSnackbar(err.response.data.result.toString()));
   };
 
-  const getSales = (busid) => {
+  const getSales = (busid, date) => {
     axios.defaults.headers.post["authorization"] = localStorage.adminToken;
     axios
       .post("http://localhost:5000/admin/bus/sales", {
         busid,
+        date,
       })
       .then((res) => {
         if (res.data.status === "Success") {

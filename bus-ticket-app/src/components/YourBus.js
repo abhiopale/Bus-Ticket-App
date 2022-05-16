@@ -6,9 +6,13 @@ import {
   CardActions,
   Typography,
   Button,
+  Paper,
+  Grid,
 } from "@mui/material";
 
-import { Link } from "react-router-dom";
+import Modal from "@mui/material/Modal";
+
+import CloseIcon from "@mui/icons-material/Close";
 
 import { useSnackbar } from "notistack";
 
@@ -19,6 +23,46 @@ const axios = require("axios").default;
 const YourBus = () => {
   const [Buses, setBuses] = useState([]);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const [open, setOpen] = useState(false);
+  const [busId, setBusId] = useState("");
+  const [tickets, settickets] = useState([]);
+  const [Sales, setSales] = useState(null);
+
+  const getTickets = (busid) => {
+    axios.defaults.headers.post["authorization"] = localStorage.adminToken;
+    axios
+      .post("http://localhost:5000/admin/bus/details", {
+        busid,
+      })
+      .then((res) => {
+        if (res.data.status === "Success") {
+          settickets(Object.values(res.data.result));
+        }
+      });
+    // .catch((err) => enqueueSnackbar(err.response.data.result.toString()));
+  };
+
+  const getSales = (busid) => {
+    axios.defaults.headers.post["authorization"] = localStorage.adminToken;
+    axios
+      .post("http://localhost:5000/admin/bus/sales", {
+        busid,
+      })
+      .then((res) => {
+        if (res.data.status === "Success") {
+          setSales(res.data.result);
+        }
+      });
+    // .catch((err) => enqueueSnackbar(err.response.data.result.toString()));
+  };
+
+  useEffect(() => {
+    getTickets(busId);
+    getSales(busId);
+  }, [busId]);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const getBus = () => {
     axios.defaults.headers.get["authorization"] = localStorage.adminToken;
@@ -27,7 +71,6 @@ const YourBus = () => {
       .then((res) => {
         if (res.data.status === "Success") {
           setBuses(res.data.result);
-          console.log(Buses);
         } else {
           enqueueSnackbar("No buses Availble");
         }
@@ -42,7 +85,16 @@ const YourBus = () => {
   return (
     <div>
       <Nav />
-      <h1 style={{ paddingTop: "5%", textAlign: "center" }}>Here's Your Bus</h1>
+      <h1
+        style={{
+          paddingTop: "10%",
+          textAlign: "center",
+          fontSize: "400%",
+          color: "crimson",
+        }}
+      >
+        Here's Your Bus
+      </h1>
       {Buses.map((bus) => {
         return (
           <Card
@@ -59,9 +111,10 @@ const YourBus = () => {
                 style={{
                   fontWeight: 1000,
                   fontSize: "3rem",
+                  color: "crimson",
                 }}
               >
-                {bus.name}
+                {bus.name.toUpperCase()}
               </Typography>
               <Typography
                 sx={{
@@ -104,35 +157,93 @@ const YourBus = () => {
                 sx={{ fontSize: "1.3rem", fontWeight: 500, marginTop: "1%" }}
               >
                 <span style={{ fontWeight: 1000 }}>From: </span>{" "}
-                <span color="text.secondary"> {bus.arrival}</span>
+                <span color="text.secondary"> {bus.arrival.toUpperCase()}</span>
               </Typography>{" "}
               <Typography
                 sx={{ fontSize: "1.3rem", fontWeight: 500, marginTop: "1%" }}
               >
                 <span style={{ fontWeight: 1000 }}>To: </span>{" "}
-                <span color="text.secondary"> {bus.destination}</span>
+                <span color="text.secondary">
+                  {" "}
+                  {bus.destination.toUpperCase()}
+                </span>
               </Typography>
             </CardContent>
             <CardActions>
               <div style={{ paddingBottom: "2vh" }}>
-                <Link to={`/admin/bus/${bus._id}`}>
-                  <Button
-                    sx={{
-                      width: "20vh",
-                      marginLeft: "150vh",
-                    }}
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                  >
-                    Check sales
-                  </Button>
-                </Link>
+                <Button
+                  sx={{
+                    width: "20vh",
+                    marginLeft: "150vh",
+                    backgroundColor: "crimson",
+                  }}
+                  onClick={() => {
+                    handleOpen();
+                    setBusId(bus._id);
+                  }}
+                  type="submit"
+                  variant="contained"
+                >
+                  Check sales
+                </Button>
               </div>
             </CardActions>
           </Card>
         );
       })}
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <div>
+          {" "}
+          <Paper
+            elevation={20}
+            sx={{
+              padding: "30px 20px",
+              width: "120vh",
+              margin: "100px auto",
+              justifyContent: "space-around",
+            }}
+          >
+            <span style={{ marginLeft: "95%" }}>
+              <CloseIcon sx={{ fontSize: "2rem" }} onClick={handleClose} />
+            </span>
+            <h1 style={{ textAlign: "center", marginBottom: "5%" }}>
+              Sales Of the Bus Trip is {Sales}
+            </h1>
+            <Grid
+              container
+              spacing={1}
+              item
+              lg={10}
+              sx={{ justifyContent: "space-between" }}
+            >
+              {tickets.map((ticket) => {
+                return (
+                  <Grid>
+                    <Button
+                      sx={{
+                        width: "100px",
+                        marginLeft: "12vh",
+                        marginBottom: "2vh",
+                        backgroundColor: "crimson",
+                      }}
+                      disabled={ticket.isBooked}
+                      type="submit"
+                      variant="contained"
+                    >
+                      {ticket.seatNo}
+                    </Button>
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </Paper>
+        </div>
+      </Modal>
     </div>
   );
 };
