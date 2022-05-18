@@ -22,29 +22,11 @@ function App() {
           <Route path="/admin/signin" element={<AdminSignIn />} />
 
           <Route path="/admin/home" element={<UploadBus />} />
-          <Route
-            path="/admin/yourbus"
-            element={
-              localStorage.adminToken ? (
-                <YourBus />
-              ) : (
-                <Navigate to="/admin/signin"></Navigate>
-              )
-            }
-          />
+          <Route path="/admin/yourbus" element={<YourBus />} />
 
           <Route path="/user/home" element={<UserHome />} />
 
-          <Route
-            path="/user/yourticket"
-            element={
-              localStorage.userToken ? (
-                <YourTickets />
-              ) : (
-                <Navigate to="/user/signin"></Navigate>
-              )
-            }
-          />
+          <Route path="/user/yourticket" element={<YourTickets />} />
         </Routes>
       </BrowserRouter>
     </SnackbarProvider>

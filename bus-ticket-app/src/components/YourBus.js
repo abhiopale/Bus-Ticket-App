@@ -24,9 +24,17 @@ const YourBus = () => {
   const [Buses, setBuses] = useState([]);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [open, setOpen] = useState(false);
+  const [childOpen, setChildOpen] = useState(false);
   const [busId, setBusId] = useState("");
   const [tickets, settickets] = useState([]);
   const [Sales, setSales] = useState(null);
+  const [ticketData, setTicketData] = useState();
+  const [selectedSeat, setselectedSeat] = useState([]);
+  const [ticketWindow, setTicketWindow] = useState(true);
+
+  useEffect(() => {
+    ticketDetails(selectedSeat, busId);
+  }, [selectedSeat]);
 
   const getTickets = (busid) => {
     axios.defaults.headers.post["authorization"] = localStorage.adminToken;
@@ -40,6 +48,22 @@ const YourBus = () => {
         }
       });
     // .catch((err) => enqueueSnackbar(err.response.data.result.toString()));
+  };
+
+  const ticketDetails = async (seatNo, busId) => {
+    axios.defaults.headers.post["authorization"] = localStorage.adminToken;
+    axios
+      .post("http://localhost:5000/admin/ticketdetails", {
+        busId,
+        seatNo,
+      })
+      .then((res) => {
+        if (res.data.status === "Success") {
+          setTicketData(res.data.result);
+          console.log(ticketData);
+        }
+      })
+      .catch((err) => enqueueSnackbar(err.response.data.result.toString()));
   };
 
   const getSales = (busid) => {
@@ -61,8 +85,14 @@ const YourBus = () => {
     getSales(busId);
   }, [busId]);
 
+  // useEffect(() => {
+  //   ticketDetails(selectedSeat, busId);
+  // }, [selectedSeat]);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleChildOpen = () => setChildOpen(true);
+  const handleChildClose = () => setChildOpen(false);
 
   const getBus = () => {
     axios.defaults.headers.get["authorization"] = localStorage.adminToken;
@@ -197,8 +227,7 @@ const YourBus = () => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <div>
-          {" "}
+        {ticketWindow ? (
           <Paper
             elevation={20}
             sx={{
@@ -229,11 +258,16 @@ const YourBus = () => {
                         width: "100px",
                         marginLeft: "12vh",
                         marginBottom: "2vh",
-                        backgroundColor: "crimson",
+                        backgroundColor: ticket.isBooked ? "gray" : "crimson",
                       }}
-                      disabled={ticket.isBooked}
                       type="submit"
                       variant="contained"
+                      onClick={() => {
+                        console.log(ticket.seatNo);
+                        ticketDetails(ticket.seatNo, busId);
+
+                        setTicketWindow(false);
+                      }}
                     >
                       {ticket.seatNo}
                     </Button>
@@ -242,7 +276,181 @@ const YourBus = () => {
               })}
             </Grid>
           </Paper>
-        </div>
+        ) : (
+          // <h1>{ticketData}</h1>
+          <div>
+            {ticketData.map((ticket) => {
+              return (
+                <Card
+                  elevation={10}
+                  sx={{
+                    minWidth: 275,
+                    margin: "5%",
+                  }}
+                >
+                  <CardContent style={{ marginLeft: "10%" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      {" "}
+                      <Typography
+                        variant="h5"
+                        component="div"
+                        style={{
+                          fontWeight: 1000,
+                          fontSize: "3rem",
+                          color: "crimson",
+                        }}
+                      >
+                        {ticket.bus.toUpperCase()}
+                      </Typography>
+                      <Typography variant="body2">
+                        <span
+                          style={{
+                            fontWeight: 1000,
+                            fontSize: "1.3rem",
+                            fontSize: "2.5rem",
+                            color: "crimson",
+                          }}
+                        >
+                          {" "}
+                          Rs. {ticket.rate}
+                        </span>
+                        <br />
+                      </Typography>
+                    </div>
+                    <Typography
+                      sx={{
+                        fontSize: 14,
+                        fontWeight: 500,
+                        fontSize: "1.3rem",
+                        marginTop: "1%",
+                      }}
+                      gutterBottom
+                    >
+                      <span
+                        style={{
+                          fontWeight: "bold",
+                          fontSize: "1.3rem",
+                          fontSize: "1.3rem",
+                        }}
+                      >
+                        {" "}
+                        Mode Of Payment :
+                      </span>
+                      <span
+                        color="text.secondary"
+                        style={{ fontSize: "1.3rem" }}
+                      >
+                        {" "}
+                        {ticket.modeOfPayment}
+                      </span>
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontSize: 14,
+                        fontWeight: 500,
+                        fontSize: "1.3rem",
+                        marginTop: "1%",
+                      }}
+                      gutterBottom
+                    >
+                      <span
+                        style={{
+                          fontWeight: "bold",
+                          fontSize: "1.3rem",
+                          fontSize: "1.3rem",
+                        }}
+                      >
+                        {" "}
+                        Seat No :
+                      </span>
+                      <span
+                        color="text.secondary"
+                        style={{ fontSize: "1.3rem" }}
+                      >
+                        {" "}
+                        {ticket.seatNo}
+                      </span>
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontSize: 14,
+                        fontWeight: 500,
+                        fontSize: "1.3rem",
+                        marginTop: "1%",
+                      }}
+                      gutterBottom
+                    >
+                      <span
+                        style={{
+                          fontWeight: "bold",
+                          fontSize: "1.3rem",
+                          fontSize: "1.3rem",
+                        }}
+                      >
+                        {" "}
+                        Date:
+                      </span>
+                      <span
+                        color="text.secondary"
+                        style={{ fontSize: "1.3rem" }}
+                      >
+                        {" "}
+                        {ticket.date}
+                      </span>
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontSize: 14,
+                        fontWeight: 500,
+                        fontSize: "1.3rem",
+                        marginTop: "1%",
+                      }}
+                    >
+                      <span style={{ fontWeight: 1000, fontSize: "1.3rem" }}>
+                        Passenger:{" "}
+                      </span>{" "}
+                      <span color="text.secondary">
+                        {" "}
+                        {ticket.customerName.toUpperCase()}
+                      </span>
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontSize: "1.3rem",
+                        fontWeight: 500,
+                        marginTop: "1%",
+                      }}
+                    >
+                      <span style={{ fontWeight: 1000 }}>From: </span>{" "}
+                      <span color="text.secondary">
+                        {" "}
+                        {ticket.arrival.toUpperCase()}
+                      </span>
+                    </Typography>{" "}
+                    <Typography
+                      sx={{
+                        fontSize: "1.3rem",
+                        fontWeight: 500,
+                        marginTop: "1%",
+                      }}
+                    >
+                      <span style={{ fontWeight: 1000 }}>To: </span>{" "}
+                      <span color="text.secondary">
+                        {" "}
+                        {ticket.destiny.toUpperCase()}
+                      </span>
+                    </Typography>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        )}
       </Modal>
     </div>
   );

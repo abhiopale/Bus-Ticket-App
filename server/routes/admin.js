@@ -276,4 +276,20 @@ router.post("/admin/bus/sales", adminAuth, jsonParser, async (req, res) => {
   }
 });
 
+router.post("/admin/ticketdetails", adminAuth, jsonParser, async (req, res) => {
+  let { busId, seatNo } = req.body;
+  try {
+    const ticket = await Ticket.find({ busId, seatNo });
+    res.json({
+      status: "Success",
+      result: ticket,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      result: "Please fill in the appropriate details.",
+    });
+  }
+});
+
 module.exports = router;

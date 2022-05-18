@@ -480,16 +480,7 @@ const UserHome = () => {
                     label="Other"
                   />
                 </RadioGroup>
-                {/* <TextField
-                  sx={{ paddingTop: "30px" }}
-                  fullWidth
-                  required
-                  id="Mode Of Payment"
-                  type="text"
-                  onChange={(e) => setModeOfPayment(e.target.value)}
-                  label="Mode Of Payment"
-                  variant="standard"
-                ></TextField> */}
+
                 <Grid sx={{ paddingTop: "50px", paddingLeft: "30%" }}>
                   <Button
                     sx={{ width: "50%", backgroundColor: "crimson" }}
