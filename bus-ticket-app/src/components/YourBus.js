@@ -277,7 +277,6 @@ const YourBus = () => {
             </Grid>
           </Paper>
         ) : (
-          // <h1>{ticketData}</h1>
           <div>
             {ticketData.map((ticket) => {
               return (

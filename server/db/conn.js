@@ -1,9 +1,13 @@
 /* eslint-disable no-console */
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-mongoose.connect('mongodb://localhost:27017/busticket')
+mongoose
+  .connect(
+    "mongodb+srv://abhi:abhiopale@cluster0.fx7lc.mongodb.net/Bus-Ticket-App?retryWrites=true&w=majority"
+  )
   .then(() => {
-    console.log('Connected to mongodb');
-  }).catch(() => {
-    console.log('no connection');
+    console.log("Connected to mongodb");
+  })
+  .catch((e) => {
+    console.log(e);
   });

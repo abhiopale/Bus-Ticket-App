@@ -36,8 +36,7 @@ const AdminSignUp = () => {
       .then((res) => {
         if (res.data.status === "Success") {
           navigate("/admin/signin");
-          console.log("Posting Data", res);
-          enqueueSnackbar(res.data.result.toString());
+          enqueueSnackbar("Successfully Signed In");
         }
       })
       .catch((err) => {
